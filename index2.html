@@ -233,7 +233,8 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;display:block}
       <div class="fadeout" id="fadeout"></div>
     </div>
   </div>
-<div id="hint" hidden><b></b></div><div id="sonido" hidden></div>
+<div id="hint"><b>▶ Toca para iniciar el spot</b><span>SCOREViA · Calife App</span></div>
+<div id="sonido" hidden>🔇 Toca para activar el sonido</div>
 
 <script>
 (()=>{
@@ -398,12 +399,12 @@ const EN_ESCENA=Q.has('escena');   // dentro de la pantalla de Escena no se mues
 const ESPERA=Q.has('espera');      // ?espera: no arranca solo, espera la orden spot:play
 const hint=document.getElementById('hint'),sonido=document.getElementById('sonido');
 hint.hidden=true;
-function showHint(){} // sin avisos en pantalla: al terminar queda en negro
+function showHint(txt){if(EN_ESCENA)return;hint.querySelector('b').textContent=txt;hint.hidden=false}
 function post(type){try{if(parent!==window)parent.postMessage({type,source:'spot-scorevia'},'*')}catch(e){}}
 // Sonido: si el navegador bloquea el audio sin un toque previo, el spot sigue en silencio
 // y el primer toque activa la música en el punto exacto.
 function startAudio(){mus.muted=false;try{mus.currentTime=t}catch(e){}
-  const pr=mus.play();if(pr&&pr.catch)pr.catch(()=>{mus.muted=true;mus.play().catch(()=>{});post('spot:audio-blocked')})}
+  const pr=mus.play();if(pr&&pr.catch)pr.catch(()=>{mus.muted=true;mus.play().catch(()=>{});if(!EN_ESCENA)sonido.hidden=false;post('spot:audio-blocked')})}
 function unmute(){if(!mus.muted)return false;mus.muted=false;try{mus.currentTime=t}catch(e){}mus.play().catch(()=>{});sonido.hidden=true;return true}
 document.addEventListener('pointerdown',()=>{if(unmute())return;if(!playing)play()});
 document.addEventListener('keydown',e=>{if(unmute()&&e.key!=='Escape')return;if(e.code==='Space'||e.key==='Enter'){e.preventDefault();playing?stop():play()}else if(e.key==='Escape')stop()});
