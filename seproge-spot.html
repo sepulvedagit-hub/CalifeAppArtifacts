@@ -30,20 +30,21 @@
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;background:#000;color:var(--white);overflow:hidden}
 body{font-family:var(--sans)}
-.wrap{position:fixed;inset:0;display:grid;place-items:center}
+.wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px}
 .head h1{font:700 clamp(20px,3vw,30px)/1 var(--regal);letter-spacing:.18em;margin:0}
 .head h1 span{color:var(--steel);font-weight:600}
 .head p{margin:0;color:var(--dim);font-size:15px;letter-spacing:.06em}
-.stage{position:relative;width:min(100vw,177.78vh);height:min(100vh,56.25vw);background:#000;overflow:hidden;container-type:inline-size;cursor:pointer}
+.stage{position:relative;width:max(100vw,177.78vh);height:max(100vh,56.25vw);flex:none;background:#000;overflow:hidden;container-type:inline-size;cursor:pointer}
 .stage:fullscreen{border-radius:0;aspect-ratio:auto;width:100vw;height:100vh;display:grid;place-items:center}
 .stage:fullscreen .frame{position:relative;inset:auto;width:min(100vw,177.78vh);height:auto;aspect-ratio:16/9}
 .frame{position:absolute;inset:0;container-type:inline-size;overflow:hidden;background:var(--night)}
 canvas.fx{position:absolute;inset:0;width:100%;height:100%;display:block}
 .layer{position:absolute;inset:0;pointer-events:none}
 .layer[data-off]{visibility:hidden}
-.scope{position:absolute;left:0;right:0;height:5.2cqw;background:#000;z-index:8}
+.scope{position:absolute;left:0;right:0;height:3.2cqw;background:#000;z-index:8}
 .scope.t{top:0}.scope.b{bottom:0}
+.sweep{position:absolute;top:-20%;bottom:-20%;width:30cqw;left:-40cqw;z-index:6;pointer-events:none;background:linear-gradient(90deg,transparent,#F3E9CF55 40%,#FFFFFFcc 50%,#F3E9CF55 60%,transparent);transform:skewX(-18deg);mix-blend-mode:screen;opacity:0}
 .grain{position:absolute;inset:0;z-index:7;opacity:.06;background-image:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px);mix-blend-mode:overlay}
 .fadeout{position:absolute;inset:0;background:#000;opacity:0;z-index:9}
 .regal{font-family:var(--regal);font-weight:700;letter-spacing:.22em}
@@ -61,7 +62,7 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;display:block}
 .title1 .s{font:400 1.45cqw/1 var(--sans);letter-spacing:.55em;padding-left:.55em;color:var(--silver);text-transform:uppercase}
 
 /* 2  cmaras de vigilancia */
-.grid{position:absolute;left:6cqw;right:6cqw;top:8cqw;bottom:8cqw;display:grid;grid-template-columns:1fr 1fr;gap:1cqw}
+.grid{position:absolute;left:10cqw;right:10cqw;top:6.5cqw;bottom:6.5cqw;display:grid;grid-template-columns:1fr 1fr;gap:1cqw}
 .cam{position:relative;overflow:hidden;background:#0B1226;border:.1cqw solid #ffffff22}
 .cam canvas{position:absolute;inset:0;width:100%;height:100%}
 .cam .id{position:absolute;left:1.2cqw;top:1cqw;font:600 1.05cqw/1 var(--mono);letter-spacing:.15em;color:#fff;display:flex;gap:.6cqw;align-items:center}
@@ -78,11 +79,17 @@ canvas.fx{position:absolute;inset:0;width:100%;height:100%;display:block}
 .val .line{height:.12cqw;background:linear-gradient(90deg,transparent,var(--beam),transparent);width:0}
 
 /* 4  crditos de servicios */
-.credits{position:absolute;left:0;right:0;top:0;display:grid;justify-items:center;gap:3.4cqw;text-align:center;will-change:transform}
-.credits .h{font:400 1.5cqw/1 var(--sans);letter-spacing:.7em;padding-left:.7em;color:var(--orange);text-transform:uppercase}
-.credits .c{font:600 3.7cqw/1.3 var(--regal);letter-spacing:.08em}
-.credits .c small{display:block;margin-top:.9cqw;font:300 1.3cqw/1 var(--sans);letter-spacing:.5em;color:var(--steel);text-transform:uppercase}
-.s4 .mask{position:absolute;inset:0;background:linear-gradient(180deg,var(--night) 6%,transparent 26%,transparent 74%,var(--night) 94%)}
+.credits{position:absolute;inset:0;perspective:90cqw}
+.credits .h{position:absolute;left:0;right:0;top:9cqw;text-align:center;font:500 1.6cqw/1 var(--sans);letter-spacing:.8em;padding-left:.8em;color:var(--orange);text-transform:uppercase}
+.credits .h::after{content:"";display:block;margin:1.2cqw auto 0;width:var(--hw,0cqw);height:.12cqw;background:linear-gradient(90deg,transparent,var(--orange),transparent)}
+.svc{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;text-align:center;opacity:0;transform-style:preserve-3d;will-change:transform,opacity}
+.svc .num{position:absolute;left:50%;top:50%;transform:translate(-50%,-56%);font:700 34cqw/1 var(--regal);color:transparent;-webkit-text-stroke:.12cqw #C9CED633;letter-spacing:-.02em;pointer-events:none}
+.svc .ttl{position:relative;font:700 6.4cqw/1.35 var(--regal);letter-spacing:.06em;padding:.15em .3em .05em;background:linear-gradient(180deg,#FFFFFF 0%,#FFFFFF 22%,#C9CED6 52%,#7D838E 66%,#E8EBF0 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;white-space:nowrap}
+.svc .sub{font:400 1.9cqw/1 var(--sans);letter-spacing:.55em;padding-left:.55em;color:var(--beam);text-transform:uppercase;margin-top:1.2cqw}
+.svc .flare{position:absolute;left:50%;top:50%;width:80cqw;height:.25cqw;transform:translate(-50%,-50%) scaleX(0);background:linear-gradient(90deg,transparent,#F3E9CF 30%,#fff 50%,#F3E9CF 70%,transparent);box-shadow:0 0 2cqw .6cqw #F3E9CF88;border-radius:50%}
+.svc .shard{position:absolute;left:50%;top:50%;width:.2cqw;height:9cqw;background:linear-gradient(180deg,transparent,#F3E9CF,transparent);transform-origin:center}
+.counter{position:absolute;right:11cqw;bottom:6cqw;font:500 1.4cqw/1 var(--mono);letter-spacing:.3em;color:var(--dim)}
+.counter b{color:var(--white);font-weight:600}
 
 /* 5  cierre en luz */
 .light{position:absolute;inset:0;background:radial-gradient(70% 80% at 50% 42%,#FFFFFF 0%,#E9ECF1 45%,#B9C0CC 100%);opacity:0}
@@ -143,7 +150,7 @@ button[aria-pressed=true]{background:#2B2614;border-color:var(--beam);color:var(
       <div class="info" id="info"><span><b>T.</b> 829-749-7611</span><span><b>E.</b> seprogeseguridad@gmail.com</span></div>
     </div>
 
-    <div class="grain"></div>
+    <div class="sweep" id="sweep"></div><div class="grain"></div>
     <div class="scope t"></div><div class="scope b"></div>
     <div class="fadeout" id="fadeout"></div>
   </div></div>
@@ -163,14 +170,15 @@ const SC=[[0,7.6],[6.2,13.4],[12,18.8],[17.4,25.4],[24,99]]; // escenas solapada
 // contenido
 const NAME='SEPROGE';NAME.split('').forEach(c=>{const s=document.createElement('span');s.textContent=c;$('name1').appendChild(s)});
 const nameL=[...$('name1').children];
-const CAMS=[['CAM 01','Protección de personas'],['CAM 02','Recepci\u00f3n'],['CAM 03','Localidades'],['CAM 04','Seguridad física']];
+const CAMS=[['CAM 01','Protecci\u00f3n de personas'],['CAM 02','Recepci\u00f3n'],['CAM 03','Localidades'],['CAM 04','Seguridad f\u00edsica']];
 $('grid').innerHTML=CAMS.map(c=>`<div class="cam"><canvas></canvas><div class="id"><i></i>${c[0]}</div><div class="ts">--:--:--</div><div class="lb">${c[1]}</div></div>`).join('');
 const cams=[...document.querySelectorAll('.cam')];
 const VALS=['Vigilancia','Protecci\u00f3n','Confianza'];
 $('values').innerHTML=VALS.map(v=>`<div class="val"><div class="w regal silver">${v}</div><div class="line"></div></div>`).join('');
 const vals=[...document.querySelectorAll('.val')];
 const SVC=[['Seguridad especial','y recepci\u00f3n'],['Supervisi\u00f3n','de localidades'],['Protecci\u00f3n','de personas'],['Investigaci\u00f3n',''],['Capacitaci\u00f3n','de personal de seguridad'],['Seguridad','f\u00edsica']];
-$('credits').innerHTML='<div class="h">Ofrecemos</div>'+SVC.map(s=>`<div class="c">${s[0]}${s[1]?`<small>${s[1]}</small>`:''}</div>`).join('');
+$('credits').innerHTML='<div class="h" id="svcH">Ofrecemos</div>'+SVC.map((s,i)=>`<div class="svc"><div class="num">${String(i+1).padStart(2,'0')}</div><div class="flare"></div>${Array.from({length:6},(_, k)=>`<i class="shard" style="--k:${k}"></i>`).join('')}<div class="ttl">${s[0]}</div><div class="sub">${s[1]||'&#160;'}</div></div>`).join('')+'<div class="counter" id="svcCount"></div>';
+const svcs=[...document.querySelectorAll('.svc')];
 const SLG=['Todo','por','tu','Seguridad'];
 $('slg').innerHTML=SLG.map((w,i)=>`<span class="${i===3?'o':''}">${w}</span>`).join(' ');
 const slgL=[...$('slg').children];
@@ -285,13 +293,29 @@ function render(t){
       v.querySelector('.line').style.width=eOut(seg(t,a+.4,a+1.2))*30+'cqw'});
     $('s3').style.opacity=eIO(seg(t,12,13.4))*(1-eIO(seg(t,17.4,18.8)))}
   // escena 4: cr\u00e9ditos que suben
-  if(t>=17.4&&t<25.4){const cr=$('credits');const H0=$('frame').clientHeight,ch=cr.scrollHeight;const p=seg(t,17.6,25.2);cr.style.transform=`translateY(${H0*.92-p*(ch+H0*.25)}px)`;
-    $('s4').style.opacity=eIO(seg(t,17.4,18.8))*(1-eIO(seg(t,24,25.4)))}
+  if(t>=17.4&&t<25.4){
+    const T0=18.3,STEP=1.1;$('svcH').style.opacity=eOut(seg(t,17.6,18.2));$('svcH').style.setProperty('--hw',eOut(seg(t,17.8,18.6))*22+'cqw');
+    let cur=-1;
+    svcs.forEach((el,i)=>{const a=T0+i*STEP,b=a+STEP;const pin=seg(t,a,a+.45),pout=seg(t,b-.25,b+.2);
+      if(t<a-.05||t>b+.2){el.style.opacity=0;return}
+      if(t>=a)cur=i;
+      // entrada: destello horizontal y apertura desde el centro con giro 3D
+      const fl=el.querySelector('.flare');const fp=seg(t,a-.05,a+.35);fl.style.transform=`translate(-50%,-50%) scaleX(${eOut(fp)})`;fl.style.opacity=1-seg(t,a+.25,a+.6);
+      const ttl=el.querySelector('.ttl');const w=eOut(pin)*55;ttl.style.clipPath=`inset(0 ${50-w}% 0 ${50-w}%)`;
+      el.querySelector('.sub').style.opacity=seg(t,a+.3,a+.6);el.querySelector('.sub').style.transform=`translateY(${(1-eOut(seg(t,a+.3,a+.6)))*1.5}cqw)`;
+      el.querySelector('.num').style.transform=`translate(-50%,-56%) scale(${1.25-.25*eOut(pin)+(t-a)*.03})`;el.querySelector('.num').style.opacity=.9*seg(t,a,a+.4);
+      el.querySelectorAll('.shard').forEach((sh,k)=>{const ang=k*60+i*17;const d=eOut(seg(t,a,a+.6))*26;sh.style.transform=`translate(-50%,-50%) rotate(${ang}deg) translateY(${-d}cqw) scaleY(${1-seg(t,a+.2,a+.6)})`;sh.style.opacity=1-seg(t,a+.3,a+.6)});
+      // salida: atraviesa la c\u00e1mara (zoom hacia el espectador) con desenfoque de movimiento por opacidad
+      const rot=(1-eOut(pin))*-35;el.style.transform=`translateZ(${eOut(pout)*40}cqw) rotateX(${rot}deg)`;
+      el.style.opacity=Math.min(1,seg(t,a-.05,a+.15)*1.2)*(1-eOut(pout))});
+    $('svcCount').innerHTML=cur>=0?`<b>${String(cur+1).padStart(2,'0')}</b> / ${String(svcs.length).padStart(2,'0')}`:'';
+    $('s4').style.opacity=eIO(seg(t,17.4,18.4))*(1-eIO(seg(t,24.6,25.4)))}
   // escena 5: luz blanca y cierre
   $('light').style.opacity=t>=24?eIO(seg(t,24,25.6)):0;
   if(t>=24){const p=seg(t,24.8,26.4);const c=$('crest5');c.style.opacity=p;c.style.transform=`translate(-50%,-50%) scale(${1.25-.25*eOut(p)+Math.max(0,t-25.6)*.004})`;
     slgL.forEach((s,i)=>{const q=seg(t,26.1+i*.32,26.8+i*.32);s.style.opacity=q;s.style.transform=`translateY(${(1-eOut(q))*1.5}cqw)`;s.style.filter='none'});
     $('uline').style.width=eOut(seg(t,27.4,28.2))*52+'cqw';const f=seg(t,27.7,28.4);$('info').style.opacity=f}
+  {const TR=[6.9,12.7,18.1,24.6];let sx=-40,so=0;TR.forEach(c=>{const p=seg(t,c-.45,c+.55);if(p>0&&p<1){sx=-40+eIO(p)*180;so=Math.sin(p*Math.PI)}});const sw=$('sweep');sw.style.left=sx+'cqw';sw.style.opacity=so}
   $('fadeout').style.opacity=(1-Math.cos(Math.PI*seg(t,28.2,31)))/2;
   fx(t);if(t>=12&&t<18.8)venue(t,eIO(seg(t,12,13.4))*(1-eIO(seg(t,17.4,18.8))));
 }
@@ -301,7 +325,7 @@ const MUSIC_SRC='data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2
 const mus=new Audio();mus.preload='auto';if(MUSIC_SRC)mus.src=MUSIC_SRC;
 function musSync(t){if(!mus.src)return;try{if(Math.abs(mus.currentTime-t)>.15)mus.currentTime=t}catch(e){}}
 function musPlay(t){if(!mus.src)return;musSync(t);mus.play().catch(()=>{mus.muted=true;mus.play().catch(()=>{})})}
-document.addEventListener('pointerdown',()=>{if(mus.muted){mus.muted=false;musSync(t);mus.play().catch(()=>{})}},true);
+document.addEventListener('pointerdown',()=>{try{if(!document.fullscreenElement&&document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}if(mus.muted){mus.muted=false;musSync(t);mus.play().catch(()=>{})}},true);
 
 /* reproducci\u00f3n: arranca sola y se repite en bucle; clic o espacio pausa, F pantalla completa */
 let t=0,playing=false,last=0,raf=0,timer=0;
